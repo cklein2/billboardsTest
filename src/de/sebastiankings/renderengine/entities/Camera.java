@@ -2,6 +2,7 @@ package de.sebastiankings.renderengine.entities;
 
 import org.apache.log4j.Logger;
 import org.joml.Matrix4f;
+import org.joml.Quaternionf;
 import org.joml.Vector3f;
 
 import de.sebastiankings.renderengine.Constants;
@@ -18,7 +19,20 @@ public class Camera {
 	private Matrix4f viewMatrix = new Matrix4f();
 	private Matrix4f projectionMatrix = new Matrix4f();
 	private Vector3f camPos = new Vector3f();
+	public Vector3f getCamPos() {
+		return camPos;
+	}
+
 	private Vector3f lookDir = new Vector3f();
+	
+	public final Matrix4f view = new Matrix4f();
+	public Vector3f getLookDir() {
+		return lookDir;
+	}
+
+	public void setLookDir(Vector3f lookDir) {
+		this.lookDir = lookDir;
+	}
 
 	private float theta = (float) Math.PI * 0.3f;
 	private float phi = (float) Math.PI * 0.0f;
@@ -106,7 +120,7 @@ public class Camera {
 		camPos.add(movement);
 	}
 
-	private Vector3f getCurrentLookDirection() {
+	public Vector3f getCurrentLookDirection() {
 		return new Vector3f((float) (Math.sin(phi) * Math.cos(theta)), (float) (Math.sin(theta)), (float) (Math.cos(phi) * Math.cos(theta)));
 	}
 
@@ -134,5 +148,15 @@ public class Camera {
 
 	public void setCameraPosition(Vector3f camPos) {
 		this.camPos = camPos;
+	}
+	
+	public void rotate (final Quaternionf quat) {
+		quat.transform(lookDir);
+		quat.transform(Vector3f(0, 1, 0));
+	}
+
+	private Vector3f Vector3f(int i, int j, int k) {
+		// TODO Auto-generated method stub
+		return Vector3f(i,j,k);
 	}
 }

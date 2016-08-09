@@ -12,7 +12,7 @@ import de.sebastiankings.renderengine.texture.Texture;
 
 public class Entity extends BaseEntity {
 
-	private Texture diffuseTexture;
+	protected Texture diffuseTexture;
 
 	public Entity(EntityType type, Model model, EntityDimensions dimensions) {
 		super(type, model, new Matrix4f(), dimensions);
@@ -22,7 +22,7 @@ public class Entity extends BaseEntity {
 		super(type, model, modelMatrix, dimensions);
 	}
 
-	private Entity(EntityType type, Model model, Texture texture, EntityDimensions dimensions) {
+	protected Entity(EntityType type, Model model, Texture texture, EntityDimensions dimensions) {
 		super(type, model, new Matrix4f(), dimensions);
 		this.diffuseTexture = texture;
 	}
@@ -38,7 +38,7 @@ public class Entity extends BaseEntity {
 	public Entity clone() {
 		return new Entity(this.type, this.model, this.diffuseTexture, this.dimensions);
 	}
-
+	
 	@Override
 	public void render(EntityShaderProgram shader, Camera camera, PointLight light) {
 		shader.start();
@@ -86,21 +86,22 @@ public class Entity extends BaseEntity {
 
 	public void moveEntityGlobal(Vector3f move) {
 		this.entityState.getCurrentPosition().add(move);
+		this.entityState.getCurrentNormal().add(move);
 		updateModelMatrix();
 	}
 
-	public void rotateX(float roation) {
-		this.entityState.incrementRotationX(roation);
+	public void rotateX(float rotation) {
+		this.entityState.incrementRotationX(rotation);
 		updateModelMatrix();
 	}
 
-	public void rotateY(float roation) {
-		this.entityState.incrementRotationY(roation);
+	public void rotateY(float rotation) {
+		this.entityState.incrementRotationY(rotation);
 		updateModelMatrix();
 	}
 
-	public void rotateZ(float roation) {
-		this.entityState.incrementRotationZ(roation);
+	public void rotateZ(float rotation) {
+		this.entityState.incrementRotationZ(rotation);
 		updateModelMatrix();
 	}
 
@@ -109,13 +110,14 @@ public class Entity extends BaseEntity {
 		updateModelMatrix();
 	}
 
-	private void updateModelMatrix() {
+	protected void updateModelMatrix() {
 		Matrix4f mm = new Matrix4f();
 		Vector3f position = new Vector3f(entityState.getCurrentPosition());
 		mm.translate(position);
 		mm.scale(this.entityState.getScaleX(), this.entityState.getScaleY(), this.entityState.getScaleZ());
 		mm.rotateXYZ(this.entityState.getRotationX(), this.entityState.getRotationY(), this.entityState.getRotationZ());
 		this.modelMatrix = mm;
+		
 	}
 
 }

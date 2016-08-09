@@ -1,5 +1,6 @@
 package de.sebastiankings.renderengine.entities;
 
+import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
 public class EntityState {
@@ -9,6 +10,7 @@ public class EntityState {
 	private float rotationZ;
 
 	private Vector3f currentPosition;
+	private Vector3f currentNormal;
 
 	private float scaleX = 1;
 	private float scaleY = 1;
@@ -19,7 +21,8 @@ public class EntityState {
 		this.setRotationX(0.0f);
 		this.setRotationY(0.0f);
 		this.rotationZ = 0.0f;
-		this.currentPosition = new Vector3f(2.0f, 2.0f, 2.0f);
+		this.currentPosition = new Vector3f(2.0f, 0.0f, 2.0f);
+		this.currentNormal = new Vector3f(0.0f, 0.0f, 1.0f);
 	}
 
 	public Vector3f getCurrentPosition() {
@@ -29,6 +32,7 @@ public class EntityState {
 	public void setCurrentPosition(Vector3f currentPosition) {
 		this.currentPosition = currentPosition;
 	}
+	
 
 	public float getRotationZ() {
 		return rotationZ;
@@ -83,5 +87,14 @@ public class EntityState {
 	public float getScaleZ() {
 		return scaleZ;
 	}
+
+	public Vector3f getCurrentNormal() {
+		return currentNormal;
+	}
+	
+	public void setCurrentNormal(Vector3f currentNormal) {
+		this.currentNormal=currentNormal;
+	}
+
 
 }

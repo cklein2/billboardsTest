@@ -2,9 +2,12 @@ package de.sebastiankings.renderengine.bo;
 
 import java.util.List;
 
+import de.sebastiankings.renderengine.entities.BaseEntity;
+import de.sebastiankings.renderengine.entities.Billboards;
 import de.sebastiankings.renderengine.entities.Camera;
 import de.sebastiankings.renderengine.entities.Entity;
 import de.sebastiankings.renderengine.entities.PointLight;
+import de.sebastiankings.renderengine.shaders.BillboardShaderProgram;
 import de.sebastiankings.renderengine.shaders.EntityShaderProgram;
 
 public class Szene {
@@ -14,20 +17,32 @@ public class Szene {
 
 	private List<PointLight> lights;
 	private List<Entity> entities;
+	private List<Billboards> billboards;
+
 
 	private EntityShaderProgram entityShader;
+	private BillboardShaderProgram billboardShader;
 
-	public Szene(List<Entity> entities, List<PointLight> lights, Camera camera, Inputs inputs) {
+	public Szene(List<Entity> entities, List<Billboards> billboards, List<PointLight> lights, Camera camera, Inputs inputs) {
 		this.setEntities(entities);
+		this.setBillboards(billboards);
 		this.setLights(lights);
 		this.setCamera(camera);
 		this.setInputs(inputs);
 	}
 
+	
+public BillboardShaderProgram getBillboardShader(){
+	return billboardShader;
+}
+	
 	public EntityShaderProgram getEntityShader() {
 		return entityShader;
 	}
 
+	public void setBillboardShader(BillboardShaderProgram billboardShader) {
+		this.billboardShader=billboardShader;
+	}
 	public void setEntityShader(EntityShaderProgram entityShader) {
 		this.entityShader = entityShader;
 	}
@@ -59,8 +74,17 @@ public class Szene {
 	public List<Entity> getEntities() {
 		return entities;
 	}
+	public List<Billboards> getBillboards() {
+		return billboards;
+	}
 
 	public void setEntities(List<Entity> entities) {
 		this.entities = entities;
 	}
+	public void setBillboards(List<Billboards> billboards) {
+		this.billboards = billboards;
+	}
+
+
+	
 }
