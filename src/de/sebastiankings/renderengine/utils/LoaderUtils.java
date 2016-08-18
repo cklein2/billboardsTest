@@ -58,7 +58,8 @@ public class LoaderUtils {
 	private static List<Integer> vbos = new ArrayList<Integer>();
 	private static List<Integer> textures = new ArrayList<Integer>();
 
-	public static Model loadToVAO(float[] positions, float[] textureCoords, float[] normals, int[] indices, float[] emission, float[] ambient, float[] specular, float[] shininess) {
+	public static Model loadToVAO(float[] positions, float[] textureCoords, float[] normals, int[] indices,
+			float[] emission, float[] ambient, float[] specular, float[] shininess) {
 		// create VAO and assign data
 		int vaoID = createVAO();
 		createIndexBuffer(indices);
@@ -86,7 +87,7 @@ public class LoaderUtils {
 		// save VAO in Model
 		return new Model(vaoID, indices.length);
 	}
-	
+
 	public static Model loadSkyboxVAO(float[] positions) {
 		// create VAO and assign data
 		int vaoID = createVAO();
@@ -112,7 +113,8 @@ public class LoaderUtils {
 			texture = new Texture(textureID);
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, textureID);
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, decoder.getWidth(), decoder.getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, buf);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, decoder.getWidth(), decoder.getHeight(), 0, GL_RGBA,
+					GL_UNSIGNED_BYTE, buf);
 			glGenerateMipmap(GL_TEXTURE_2D);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -136,32 +138,37 @@ public class LoaderUtils {
 		return texture;
 	}
 
-	public static Texture loadCubeMapTexture(String folderName){
+	public static Texture loadCubeMapTexture(String folderName) {
 		int textureID = glGenTextures();
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
 		Texture texture = null;
 		// ändern
 		PNGData front = loadPngData(folderName + "/front.png");
-		PNGData back = loadPngData(folderName+ "/back.png");
-		PNGData left = loadPngData(folderName+ "/left.png");
-		PNGData right = loadPngData(folderName+ "/right.png");
-		PNGData bottom = loadPngData(folderName+ "/bottom.png");
-		PNGData top = loadPngData(folderName+ "/top.png");
+		PNGData back = loadPngData(folderName + "/back.png");
+		PNGData left = loadPngData(folderName + "/left.png");
+		PNGData right = loadPngData(folderName + "/right.png");
+		PNGData bottom = loadPngData(folderName + "/bottom.png");
+		PNGData top = loadPngData(folderName + "/top.png");
 
-		
 		// create texture, activate and upload texture //
 		textureID = glGenTextures();
 		texture = new Texture(textureID);
 		glActiveTexture(GL13.GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
-		//Bind Actual Texture Data
-		glTexImage2D(GL13.GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, GL_RGBA, front.getWidth(), front.getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, front.getPictureData());
-		glTexImage2D(GL13.GL_TEXTURE_CUBE_MAP_POSITIVE_Z, 0, GL_RGBA, back.getWidth(), back.getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, back.getPictureData());
-		glTexImage2D(GL13.GL_TEXTURE_CUBE_MAP_NEGATIVE_X, 0, GL_RGBA, left.getWidth(), left.getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, left.getPictureData());
-		glTexImage2D(GL13.GL_TEXTURE_CUBE_MAP_POSITIVE_X, 0, GL_RGBA, right.getWidth(), right.getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, right.getPictureData());
-		glTexImage2D(GL13.GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, 0, GL_RGBA, bottom.getWidth(), bottom.getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, bottom.getPictureData());
-		glTexImage2D(GL13.GL_TEXTURE_CUBE_MAP_POSITIVE_Y, 0, GL_RGBA, top.getWidth(), top.getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, top.getPictureData());
+		// Bind Actual Texture Data
+		glTexImage2D(GL13.GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, GL_RGBA, front.getWidth(), front.getHeight(), 0, GL_RGBA,
+				GL_UNSIGNED_BYTE, front.getPictureData());
+		glTexImage2D(GL13.GL_TEXTURE_CUBE_MAP_POSITIVE_Z, 0, GL_RGBA, back.getWidth(), back.getHeight(), 0, GL_RGBA,
+				GL_UNSIGNED_BYTE, back.getPictureData());
+		glTexImage2D(GL13.GL_TEXTURE_CUBE_MAP_NEGATIVE_X, 0, GL_RGBA, left.getWidth(), left.getHeight(), 0, GL_RGBA,
+				GL_UNSIGNED_BYTE, left.getPictureData());
+		glTexImage2D(GL13.GL_TEXTURE_CUBE_MAP_POSITIVE_X, 0, GL_RGBA, right.getWidth(), right.getHeight(), 0, GL_RGBA,
+				GL_UNSIGNED_BYTE, right.getPictureData());
+		glTexImage2D(GL13.GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, 0, GL_RGBA, bottom.getWidth(), bottom.getHeight(), 0, GL_RGBA,
+				GL_UNSIGNED_BYTE, bottom.getPictureData());
+		glTexImage2D(GL13.GL_TEXTURE_CUBE_MAP_POSITIVE_Y, 0, GL_RGBA, top.getWidth(), top.getHeight(), 0, GL_RGBA,
+				GL_UNSIGNED_BYTE, top.getPictureData());
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		texture = new Texture(textureID);

@@ -41,9 +41,10 @@ import de.sebastiankings.renderengine.entities.EntityType;
 import de.sebastiankings.renderengine.entities.PointLight;
 import de.sebastiankings.renderengine.shaders.BillboardShaderProgram;
 import de.sebastiankings.renderengine.shaders.EntityShaderProgram;
+import de.sebastiankings.renderengine.shaders.SkyboxShaderProgramm;
 import de.sebastiankings.renderengine.texture.Texture;
 import de.sebastiankings.renderengine.utils.LoaderUtils;
-
+import de.sebastiankings.renderengine.utils.SkyboxUtils;
 
 public class MainGameLoop {
 	private static final Logger LOGGER = Logger.getLogger(MainGameLoop.class);
@@ -58,6 +59,7 @@ public class MainGameLoop {
 	private static Szene szene;
 
 	public static List<Billboards> billboards = new ArrayList<Billboards>();
+
 	public static void main(String[] args) {
 		try {
 			// Setup window
@@ -67,28 +69,31 @@ public class MainGameLoop {
 			List<Entity> entities = new ArrayList<Entity>();
 			for (int i = 1; i < 5; i++) {
 				Entity gumba = EntityFactory.createEntity(EntityType.GUMBA);
-				Texture reflectionTexture=LoaderUtils.loadCubeMapTexture("res/skybox/test");
+				Texture reflectionTexture = LoaderUtils.loadCubeMapTexture("res/skybox/landscape");
 				gumba.setReflectionTexture(reflectionTexture);
 				gumba.moveEntityGlobal(new Vector3f(4.0f * i, 0.0f * i, 4.0f * i));
 				gumba.rotateY(30 * i);
 				entities.add(gumba);
 			}
-			
-			//List<Billboards> billboards = new ArrayList<Billboards>();
-//			for (int i = 1; i < 5; i++) {
-//				Billboards gumba = BillboardFactory.createBillboard(EntityType.GUMBA);
-//				
-//				gumba.moveEntityGlobal(new Vector3f(3.8f*i, 0.0f * i, 4.0f ));
-//				//gumba.rotateY(30); 
-//				billboards.add(gumba);
-//			}
+
+			// List<Billboards> billboards = new ArrayList<Billboards>();
+			// for (int i = 1; i < 5; i++) {
+			// Billboards gumba =
+			// BillboardFactory.createBillboard(EntityType.GUMBA);
+			//
+			// gumba.moveEntityGlobal(new Vector3f(3.8f*i, 0.0f * i, 4.0f ));
+			// //gumba.rotateY(30);
+			// billboards.add(gumba);
+			// }
 
 			List<PointLight> lights = new ArrayList<PointLight>();
-			lights.add(new PointLight(new Vector3f(100.0f), new Vector3f(1.0f), new Vector3f(1.0f), new Vector3f(1.0f)));
+			lights.add(
+					new PointLight(new Vector3f(100.0f), new Vector3f(1.0f), new Vector3f(1.0f), new Vector3f(1.0f)));
 
 			Inputs inputs = new Inputs();
 			inputs.registerInputs(windowId);
 			szene = new Szene(entities, billboards, lights, new Camera(), inputs);
+			szene.setSkybox(SkyboxUtils.loadSkybox("res/skybox/test"));
 			initShaderProgramms();
 
 			LOGGER.info("Start GameLoop");
@@ -123,11 +128,16 @@ public class MainGameLoop {
 	}
 
 	private static void initShaderProgramms() {
-		szene.setEntityShader(new EntityShaderProgram("res/shaders/entity/vertexShader.glsl", "res/shaders/entity/fragmentShader.glsl"));
-		szene.setBillboardShader(new BillboardShaderProgram("res/shaders/billboard/vertexShader.glsl", "res/shaders/billboard/fragmentShader.glsl"));
+		szene.setEntityShader(new EntityShaderProgram("res/shaders/entity/vertexShader.glsl",
+				"res/shaders/entity/fragmentShader.glsl"));
+		// hier
+		szene.setSkyboxShader(new SkyboxShaderProgramm("res/shaders/entity/vertexShader.glsl",
+				"res/shaders/entity/fragmentShader.glsl"));
+		// ende
+		// szene.setBillboardShader(new
+		// BillboardShaderProgram("res/shaders/billboard/vertexShader.glsl",
+		// "res/shaders/billboard/fragmentShader.glsl"));
 	}
-	
-	
 
 	/**
 	 * Method to Handle all user Inputs,
@@ -153,10 +163,10 @@ public class MainGameLoop {
 		if (inputs.keyPressed(GLFW_KEY_A)) {
 			cam.moveLeft();
 		}
-		
+
 		if (inputs.keyPressed(GLFW_KEY_D)) {
 			cam.moveRight();
-			
+
 		}
 		// CLEAR ROTATION IF NOT LEFT OR RIGHT
 		if (inputs.keyPressed(GLFW_KEY_W)) {
@@ -173,19 +183,22 @@ public class MainGameLoop {
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		szene.getCamera().updateViewMatrix();
+		szene.getSkybox().render(szene.getSkyboxShader(), szene.getCamera());
 		for (Entity entity : szene.getEntities()) {
 			entity.render(szene.getEntityShader(), szene.getCamera(), szene.getLights().get(0));
 		}
-		//for (Billboards billboard : szene.getBillboards()) {
-			//testen für drehung von einem Billboard:
-			
-//			Vector3f cam=szene.getCamera().getCamPos();
-//			Vector3f billi=szene.getBillboards().get(0).getEntityState().getCurrentPosition();
-//			//Vector3f up=new Vector3f(0,1,0);
-//			float winkel=cam.angle(billi);
-//			szene.getBillboards().get(0).getEntityState().setRotationY(winkel);
-//			szene.getBillboards().get(0).render(szene.getBillboardShader(), szene.getCamera(), szene.getLights().get(0));
-			
+		// for (Billboards billboard : szene.getBillboards()) {
+		// testen für drehung von einem Billboard:
+
+		// Vector3f cam=szene.getCamera().getCamPos();
+		// Vector3f
+		// billi=szene.getBillboards().get(0).getEntityState().getCurrentPosition();
+		// //Vector3f up=new Vector3f(0,1,0);
+		// float winkel=cam.angle(billi);
+		// szene.getBillboards().get(0).getEntityState().setRotationY(winkel);
+		// szene.getBillboards().get(0).render(szene.getBillboardShader(),
+		// szene.getCamera(), szene.getLights().get(0));
+
 	}
 
 	private static void loadOpenGlSettings() {

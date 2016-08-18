@@ -7,8 +7,10 @@ import de.sebastiankings.renderengine.entities.Billboards;
 import de.sebastiankings.renderengine.entities.Camera;
 import de.sebastiankings.renderengine.entities.Entity;
 import de.sebastiankings.renderengine.entities.PointLight;
+import de.sebastiankings.renderengine.entities.types.Skybox;
 import de.sebastiankings.renderengine.shaders.BillboardShaderProgram;
 import de.sebastiankings.renderengine.shaders.EntityShaderProgram;
+import de.sebastiankings.renderengine.shaders.SkyboxShaderProgramm;
 
 public class Szene {
 
@@ -18,11 +20,13 @@ public class Szene {
 	private List<PointLight> lights;
 	private List<Entity> entities;
 	private List<Billboards> billboards;
-
-
+	
+	
 	private EntityShaderProgram entityShader;
 	private BillboardShaderProgram billboardShader;
-
+	private SkyboxShaderProgramm skyboxShader;
+	private Skybox skybox;
+	
 	public Szene(List<Entity> entities, List<Billboards> billboards, List<PointLight> lights, Camera camera, Inputs inputs) {
 		this.setEntities(entities);
 		this.setBillboards(billboards);
@@ -85,6 +89,19 @@ public BillboardShaderProgram getBillboardShader(){
 		this.billboards = billboards;
 	}
 
+	public SkyboxShaderProgramm getSkyboxShader(){	
+		return skyboxShader;
+	}
 
+	public void setSkyboxShader(SkyboxShaderProgramm skyboxShader){	
+		this.skyboxShader=skyboxShader;
+	}
+	
+	public Skybox getSkybox(){
+		return skybox;
+	}
+	public void setSkybox(Skybox skybox){
+		this.skybox=skybox;
+	}
 	
 }
