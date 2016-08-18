@@ -38,6 +38,5 @@ public class SkyboxUtils {
 		Model skyboxModel = LoaderUtils.loadSkyboxVAO(SkyboxUtils.getSkyboxVertices());
 		Skybox result = new Skybox(texture, skyboxModel);
 		return result;
-
 	}
 }

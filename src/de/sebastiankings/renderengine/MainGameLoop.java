@@ -131,8 +131,8 @@ public class MainGameLoop {
 		szene.setEntityShader(new EntityShaderProgram("res/shaders/entity/vertexShader.glsl",
 				"res/shaders/entity/fragmentShader.glsl"));
 		// hier
-		szene.setSkyboxShader(new SkyboxShaderProgramm("res/shaders/entity/vertexShader.glsl",
-				"res/shaders/entity/fragmentShader.glsl"));
+		szene.setSkyboxShader(new SkyboxShaderProgramm("res/shaders/skybox/vertexShader.glsl",
+				"res/shaders/skybox/fragmentShader.glsl"));
 		// ende
 		// szene.setBillboardShader(new
 		// BillboardShaderProgram("res/shaders/billboard/vertexShader.glsl",
