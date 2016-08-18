@@ -12,6 +12,7 @@ out vec3 surfaceNormal;
 out vec3 toCameraVector;
 out vec3 toLightVector;
 out vec2 textureCoords;
+out vec3 reflectionCoords;
 
 out vec3 matEmission;
 out vec3 matAmbient;
@@ -26,6 +27,8 @@ uniform vec3 lightPos;
 
 void main(void){
     vec4 worldPosition = modelMatrix * vec4(position, 1.0);
+    reflectionCoords=position;
+    
 	gl_Position = projectionMatrix * viewMatrix  * worldPosition;
 	surfaceNormal = (transpose(inverse(modelMatrix)) * vec4(normal,0.0)).xyz;
 

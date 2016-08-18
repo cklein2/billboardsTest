@@ -141,6 +141,7 @@ public class LoaderUtils {
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
 		Texture texture = null;
+		// ändern
 		PNGData front = loadPngData(folderName + "/front.png");
 		PNGData back = loadPngData(folderName+ "/back.png");
 		PNGData left = loadPngData(folderName+ "/left.png");
@@ -152,7 +153,7 @@ public class LoaderUtils {
 		// create texture, activate and upload texture //
 		textureID = glGenTextures();
 		texture = new Texture(textureID);
-		glActiveTexture(GL_TEXTURE0);
+		glActiveTexture(GL13.GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
 		//Bind Actual Texture Data
 		glTexImage2D(GL13.GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, GL_RGBA, front.getWidth(), front.getHeight(), 0, GL_RGBA, GL_UNSIGNED_BYTE, front.getPictureData());

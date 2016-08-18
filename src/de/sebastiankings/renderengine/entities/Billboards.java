@@ -12,6 +12,7 @@ import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
 import de.sebastiankings.renderengine.shaders.BillboardShaderProgram;
+import de.sebastiankings.renderengine.texture.Texture;
 
 public class Billboards extends Entity{
 
@@ -79,5 +80,5 @@ public class Billboards extends Entity{
 		glBindVertexArray(0);
 		shader.stop();
 	}
-	
+
 }

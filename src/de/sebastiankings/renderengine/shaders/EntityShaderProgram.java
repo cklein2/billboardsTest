@@ -27,7 +27,8 @@ public class EntityShaderProgram extends ShaderProgram {
 	private int location_matShininess;
 
 	private int location_textureSampler;
-
+	private int location_textureReflection;
+	
 	public EntityShaderProgram(String vertexPath, String fragmentPath) {
 		super(vertexPath, fragmentPath);
 	}
@@ -61,6 +62,7 @@ public class EntityShaderProgram extends ShaderProgram {
 		location_matShininess = super.getUniformLocation("matShininess");
 
 		location_textureSampler = super.getUniformLocation("textureSampler");
+		location_textureReflection = super.getUniformLocation("textureReflection");
 	}
 
 	public void loadMaterial(Material mat){
@@ -79,6 +81,7 @@ public class EntityShaderProgram extends ShaderProgram {
 
 	public void loadTexture(){
 		glUniform1i(location_textureSampler, 0);
+		glUniform1i(location_textureReflection, 1);
 	}
 
 	public void loadModelMatrix(Matrix4f matrix){

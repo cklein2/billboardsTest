@@ -1,11 +1,17 @@
 package de.sebastiankings.renderengine.entities;
 
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL20.*;
-import static org.lwjgl.opengl.GL30.*;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
+import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
+import static org.lwjgl.opengl.GL11.GL_UNSIGNED_INT;
+import static org.lwjgl.opengl.GL11.glBindTexture;
+import static org.lwjgl.opengl.GL11.glDrawElements;
+import static org.lwjgl.opengl.GL20.glDisableVertexAttribArray;
+import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
+import static org.lwjgl.opengl.GL30.glBindVertexArray;
 
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
+import org.lwjgl.opengl.GL13;
 
 import de.sebastiankings.renderengine.shaders.EntityShaderProgram;
 import de.sebastiankings.renderengine.texture.Texture;
@@ -13,6 +19,15 @@ import de.sebastiankings.renderengine.texture.Texture;
 public class Entity extends BaseEntity {
 
 	protected Texture diffuseTexture;
+	protected Texture reflectionTexture;
+	
+	public Texture getReflectionTexture() {
+		return reflectionTexture;
+	}
+
+	public void setReflectionTexture(Texture reflectionTexture) {
+		this.reflectionTexture = reflectionTexture;
+	}
 
 	public Entity(EntityType type, Model model, EntityDimensions dimensions) {
 		super(type, model, new Matrix4f(), dimensions);
@@ -65,8 +80,13 @@ public class Entity extends BaseEntity {
 		glEnableVertexAttribArray(5);
 		// SHININESS
 		glEnableVertexAttribArray(6);
-
+		
+		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, this.getTexture().getTextureID());
+		
+		GL13.glActiveTexture(GL13.GL_TEXTURE1);
+		glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, this.getReflectionTexture().getTextureID());
+		
 		shader.loadModelMatrix(this.getModelMatrix());
 
 		glDrawElements(GL_TRIANGLES, model.getVertexCount(), GL_UNSIGNED_INT, 0);
@@ -119,5 +139,4 @@ public class Entity extends BaseEntity {
 		this.modelMatrix = mm;
 		
 	}
-
 }
