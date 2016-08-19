@@ -12,7 +12,11 @@ out vec3 surfaceNormal;
 out vec3 toCameraVector;
 out vec3 toLightVector;
 out vec2 textureCoords;
+//brauche ich noch??
 out vec3 reflectionCoords;
+
+out vec3 normalReflect;
+out vec3 positionReflect;
 
 out vec3 matEmission;
 out vec3 matAmbient;
@@ -27,8 +31,13 @@ uniform vec3 lightPos;
 
 void main(void){
     vec4 worldPosition = modelMatrix * vec4(position, 1.0);
+    //Brauche ich noch??
     reflectionCoords=position;
     
+    //normalReflect=mat3(transpose(inverse(modelMatrix)))*normalReflect;
+   // positionReflect=vec3(modelMatrix*vec4(position, 1.0f));
+    
+    //ende Rechnung für Reflection
 	gl_Position = projectionMatrix * viewMatrix  * worldPosition;
 	surfaceNormal = (transpose(inverse(modelMatrix)) * vec4(normal,0.0)).xyz;
 

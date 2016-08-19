@@ -5,7 +5,11 @@ in vec3 toCameraVector;
 
 in vec3 toLightVector;
 in vec2 textureCoords;
+//brauche ich noch??
 in vec3 reflectionCoords;
+//
+in vec3 normalReflect;
+in vec3 positionReflect;
 
 in vec3 matEmission;
 in vec3 matAmbient;
@@ -16,6 +20,7 @@ in float matShininess;
 out vec4 out_Color;
 
 uniform sampler2D texture1;
+//Skybox
 uniform samplerCube textureReflection;
 
 uniform vec3 lightColAmbient;
@@ -51,7 +56,11 @@ void main(void){
     
     // TODO: Ersetzen Sie die folgende Zeile, um die Texturfarbe für diesen Texel abzufragen und als diffuse Materialfarbe zu verwenden
     vec3 diffuse = texture(texture1,textureCoords).xyz;
-    // Berechnung, nicht position, sondern aus Position und Normale
+    
+    // Berechnung der "Punkte" aus Position und Normale
+    //vec3 I = normalize(positionReflect - toCameraVector);
+    //vec3 R = reflect (I, normalize(normalReflect));
+    
     vec3 specular=texture(textureReflection, reflectionCoords).xyz;
     
     //out_Color = vec4(specular, 1.0);

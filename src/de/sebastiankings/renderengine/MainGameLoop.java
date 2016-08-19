@@ -67,15 +67,24 @@ public class MainGameLoop {
 
 			// Create Szene für Entities
 			List<Entity> entities = new ArrayList<Entity>();
-			for (int i = 1; i < 5; i++) {
-				Entity gumba = EntityFactory.createEntity(EntityType.GUMBA);
-				Texture reflectionTexture = LoaderUtils.loadCubeMapTexture("res/skybox/landscape");
-				gumba.setReflectionTexture(reflectionTexture);
-				gumba.moveEntityGlobal(new Vector3f(4.0f * i, 0.0f * i, 4.0f * i));
-				gumba.rotateY(30 * i);
-				entities.add(gumba);
-			}
+//			for (int i = 1; i < 5; i++) {
+//				Entity gumba = EntityFactory.createEntity(EntityType.GUMBA);
+//				Texture reflectionTexture = LoaderUtils.loadCubeMapTexture("res/skybox/landscape/sundown");
+//				gumba.setReflectionTexture(reflectionTexture);
+//				gumba.moveEntityGlobal(new Vector3f(4.0f * i, 5.0f, 4.0f * i));
+//				gumba.rotateY(30 * i);
+//				entities.add(gumba);
+//			}
 
+			
+			//nur ein GUMA:
+			Entity gumba = EntityFactory.createEntity(EntityType.GUMBA);
+			Texture reflectionTexture = LoaderUtils.loadCubeMapTexture("res/skybox/landscape/sundown");
+			gumba.setReflectionTexture(reflectionTexture);
+			gumba.moveEntityGlobal(new Vector3f(4.0f, 5.0f, 4.0f));
+			gumba.rotateY(30);
+			entities.add(gumba);
+			
 			// List<Billboards> billboards = new ArrayList<Billboards>();
 			// for (int i = 1; i < 5; i++) {
 			// Billboards gumba =
@@ -93,7 +102,7 @@ public class MainGameLoop {
 			Inputs inputs = new Inputs();
 			inputs.registerInputs(windowId);
 			szene = new Szene(entities, billboards, lights, new Camera(), inputs);
-			szene.setSkybox(SkyboxUtils.loadSkybox("res/skybox/test"));
+			szene.setSkybox(SkyboxUtils.loadSkybox("res/skybox/landscape/sundown"));
 			initShaderProgramms();
 
 			LOGGER.info("Start GameLoop");
