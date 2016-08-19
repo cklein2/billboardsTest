@@ -1,68 +1,18 @@
 #version 330 core
 
-in vec3 surfaceNormal;
-in vec3 toCameraVector;
-
-in vec3 toLightVector;
-in vec2 textureCoords;
-//brauche ich noch??
-in vec3 reflectionCoords;
-//
-in vec3 normalReflect;
-in vec3 positionReflect;
-
-in vec3 matEmission;
-in vec3 matAmbient;
-in vec3 matSpecular;
-in float matShininess;
-
-
+in vec3 pos_eye;
+in vec3 n_eye;
+uniform samplerCube textureReflection;
+uniform mat4 viewMatrix;
 out vec4 out_Color;
 
-uniform sampler2D texture1;
-//Skybox
-uniform samplerCube textureReflection;
 
-uniform vec3 lightColAmbient;
-uniform vec3 lightColDiffuse;
-uniform vec3 lightColSpecular;
-uniform vec4 attenuation;
-
-vec4 shade(vec3 toLightVector, vec3 unitNormal, vec3 unitToCameraVector,vec3 matDiffuse, vec3 lightColAmbient, vec3 lightColDiffuse, vec3 lightColSpecular, vec3 reflectionCol)
-{
-	float distance = length(toLightVector);
-	float attFactor = attenuation.x + (attenuation.y * (distance) + attenuation.z * distance * distance);
-    vec3 unitLightVector = normalize(toLightVector);
-    vec3 lightDirection = -unitLightVector;
-    vec3 reflectedLightDirection = reflect(lightDirection, unitNormal);
-
-    float specularFactor = dot(reflectedLightDirection, unitToCameraVector);
-    specularFactor = max(specularFactor, 0.0);
-    float dampedFactor = pow (specularFactor, matShininess);
-    vec3 finalSpecular = dampedFactor * lightColSpecular;
-
-    float nDotl = dot(unitNormal, unitLightVector);
-    float brightness = max(nDotl, 0.2);
-    vec3 diffuse = brightness * lightColDiffuse;
-//Faktor reinbringen?
-
-	return vec4(matEmission + lightColAmbient * matAmbient  + matDiffuse * diffuse + reflectionCol, 1.0);
-}
 
 void main(void){
-
-    vec3 unitNormal = normalize(surfaceNormal);
-    vec3 unitToCameraVector = normalize(toCameraVector);
-    
-    // TODO: Ersetzen Sie die folgende Zeile, um die Texturfarbe für diesen Texel abzufragen und als diffuse Materialfarbe zu verwenden
-    vec3 diffuse = texture(texture1,textureCoords).xyz;
-    
-    // Berechnung der "Punkte" aus Position und Normale
-    //vec3 I = normalize(positionReflect - toCameraVector);
-    //vec3 R = reflect (I, normalize(normalReflect));
-    
-    vec3 specular=texture(textureReflection, reflectionCoords).xyz;
-    
-    //out_Color = vec4(specular, 1.0);
-  	out_Color = shade(toLightVector, unitNormal, unitToCameraVector, diffuse, lightColAmbient, lightColDiffuse, lightColSpecular, specular);
-}
+	vec3 incident_eye=normalize(pos_eye);
+	vec3 normal=normalize(n_eye);
+	
+	vec3 reflected=reflect(incident_eye, normal);
+	reflected=vec3(inverse(viewMatrix)*vec4(reflected, 0.0));
+	out_Color=texture(textureReflection, reflected);
+    }
