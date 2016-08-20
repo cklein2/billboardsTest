@@ -90,7 +90,7 @@ public class MainGameLoop {
 			
 			//nur ein GUMBA:
 			
-			Entity gumba = EntityFactory.createEntity(EntityType.GUMBA);
+			Entity gumba = EntityFactory.createEntity(EntityType.SHIP);
 			Texture reflectionTexture = LoaderUtils.loadCubeMapTexture(skytexture);
 			gumba.setReflectionTexture(reflectionTexture);
 			gumba.moveEntityGlobal(new Vector3f(1.0f, 5.0f, 12.0f));
