@@ -68,7 +68,8 @@ public class OBJLoader {
 					currentEntity.addTextureCoord(texture);
 					// Normalen Eintrag
 				} else if (line.startsWith("vn ")) {
-					Vector3f normal = new Vector3f(Float.parseFloat(currentLine[1]), Float.parseFloat(currentLine[2]), Float.parseFloat(currentLine[3]));
+					Vector3f normal = new Vector3f(Float.parseFloat(currentLine[1]), Float.parseFloat(currentLine[2]),
+							Float.parseFloat(currentLine[3]));
 					currentEntity.addNormal(normal);
 					// ObjectName
 				} else if (line.startsWith("o ") || line.startsWith("g ")) {

@@ -1,6 +1,7 @@
 package de.sebastiankings.renderengine.shaders;
 
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
 
 import de.sebastiankings.renderengine.entities.Material;
 import de.sebastiankings.renderengine.entities.PointLight;
@@ -28,6 +29,7 @@ public class EntityShaderProgram extends ShaderProgram {
 
 	private int location_textureSampler;
 	private int location_textureReflection;
+	private int location_camPos;
 	
 	public EntityShaderProgram(String vertexPath, String fragmentPath) {
 		super(vertexPath, fragmentPath);
@@ -63,6 +65,7 @@ public class EntityShaderProgram extends ShaderProgram {
 
 		location_textureSampler = super.getUniformLocation("textureSampler");
 		location_textureReflection = super.getUniformLocation("textureReflection");
+		location_camPos=super.getUniformLocation("camPosition");
 	}
 
 	public void loadMaterial(Material mat){
@@ -94,6 +97,10 @@ public class EntityShaderProgram extends ShaderProgram {
 	
 	public void loadProjectionMatrix(Matrix4f projection){
 		super.loadMatrix(location_projectionMatrix, projection);
+	}
+	
+	public void loadCamPosition(Vector3f camera){
+		super.loadVector(location_camPos, camera);
 	}
 
 }

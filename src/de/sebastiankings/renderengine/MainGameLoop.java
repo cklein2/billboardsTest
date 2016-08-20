@@ -47,6 +47,7 @@ import de.sebastiankings.renderengine.utils.LoaderUtils;
 import de.sebastiankings.renderengine.utils.SkyboxUtils;
 
 public class MainGameLoop {
+	
 	private static final Logger LOGGER = Logger.getLogger(MainGameLoop.class);
 	@SuppressWarnings("unused")
 	private static GLFWErrorCallback errorCallback;
@@ -66,34 +67,36 @@ public class MainGameLoop {
 			init();
 
 			// Create Szene für Entities
+			//Laser 
 			List<Entity> entities = new ArrayList<Entity>();
 //			for (int i = 1; i < 5; i++) {
-//				Entity gumba = EntityFactory.createEntity(EntityType.GUMBA);
+//				Entity laser = EntityFactory.createEntity(EntityType.LASER);
 //				Texture reflectionTexture = LoaderUtils.loadCubeMapTexture("res/skybox/landscape/sundown");
-//				gumba.setReflectionTexture(reflectionTexture);
-//				gumba.moveEntityGlobal(new Vector3f(4.0f * i, 5.0f, 4.0f * i));
-//				gumba.rotateY(30 * i);
-//				entities.add(gumba);
+//				laser.setReflectionTexture(reflectionTexture);
+//				laser.moveEntityGlobal(new Vector3f(3.0f * i, 8.0f, 4.0f));
+//				laser.rotateY(30 * i);
+//				entities.add(laser);
 //			}
-
+			String skytexture="res/skybox/landscape/sundown";
+			for (int i = 1; i < 5; i++) {
+				Entity laser = EntityFactory.createEntity(EntityType.LASER);
+				Texture reflectionTexture = LoaderUtils.loadCubeMapTexture(skytexture);
+				laser.setReflectionTexture(reflectionTexture);
+				laser.moveEntityGlobal(new Vector3f(3.0f*i, 8.0f, 4.0f));
+				laser.rotateY(30 * i);
+				entities.add(laser);
+			}
 			
-			//nur ein GUMA:
+			
+			//nur ein GUMBA:
+			
 			Entity gumba = EntityFactory.createEntity(EntityType.GUMBA);
-			Texture reflectionTexture = LoaderUtils.loadCubeMapTexture("res/skybox/landscape/sundown");
+			Texture reflectionTexture = LoaderUtils.loadCubeMapTexture(skytexture);
 			gumba.setReflectionTexture(reflectionTexture);
-			gumba.moveEntityGlobal(new Vector3f(4.0f, 5.0f, 4.0f));
+			gumba.moveEntityGlobal(new Vector3f(1.0f, 5.0f, 12.0f));
 			gumba.rotateY(30);
 			entities.add(gumba);
 			
-			// List<Billboards> billboards = new ArrayList<Billboards>();
-			// for (int i = 1; i < 5; i++) {
-			// Billboards gumba =
-			// BillboardFactory.createBillboard(EntityType.GUMBA);
-			//
-			// gumba.moveEntityGlobal(new Vector3f(3.8f*i, 0.0f * i, 4.0f ));
-			// //gumba.rotateY(30);
-			// billboards.add(gumba);
-			// }
 
 			List<PointLight> lights = new ArrayList<PointLight>();
 			lights.add(
@@ -102,7 +105,7 @@ public class MainGameLoop {
 			Inputs inputs = new Inputs();
 			inputs.registerInputs(windowId);
 			szene = new Szene(entities, billboards, lights, new Camera(), inputs);
-			szene.setSkybox(SkyboxUtils.loadSkybox("res/skybox/landscape/sundown"));
+			szene.setSkybox(SkyboxUtils.loadSkybox(skytexture));
 			initShaderProgramms();
 
 			LOGGER.info("Start GameLoop");
