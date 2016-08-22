@@ -139,11 +139,7 @@ public class LoaderUtils {
 	}
 
 	public static Texture loadCubeMapTexture(String folderName) {
-		int textureID = glGenTextures();
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
-		Texture texture = null;
-		// ändern
+		//Bilder dekodieren
 		PNGData front = loadPngData(folderName + "/front.png");
 		PNGData back = loadPngData(folderName + "/back.png");
 		PNGData left = loadPngData(folderName + "/left.png");
@@ -151,17 +147,13 @@ public class LoaderUtils {
 		PNGData bottom = loadPngData(folderName + "/bottom.png");
 		PNGData top = loadPngData(folderName + "/top.png");
 
-		// create texture, activate and upload texture //
-		textureID = glGenTextures();
-		texture = new Texture(textureID);
-		// normalerweise (GL13.GL_TEXTURE1);
-		glActiveTexture(GL13.GL_TEXTURE1);
+		//Textur initialisieren
+		int textureID = glGenTextures();
+		Texture texture = new Texture(textureID);
+		//CubeMap, 3D
+		glActiveTexture(GL13.GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
-		// Bind Actual Texture Data
-		glTexImage2D(GL13.GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, GL_RGBA, front.getWidth(), front.getHeight(), 0, GL_RGBA,
-				GL_UNSIGNED_BYTE, front.getPictureData());
-		glTexImage2D(GL13.GL_TEXTURE_CUBE_MAP_POSITIVE_Z, 0, GL_RGBA, back.getWidth(), back.getHeight(), 0, GL_RGBA,
-				GL_UNSIGNED_BYTE, back.getPictureData());
+		//Bilder in die CubeMap hochladen
 		glTexImage2D(GL13.GL_TEXTURE_CUBE_MAP_NEGATIVE_X, 0, GL_RGBA, left.getWidth(), left.getHeight(), 0, GL_RGBA,
 				GL_UNSIGNED_BYTE, left.getPictureData());
 		glTexImage2D(GL13.GL_TEXTURE_CUBE_MAP_POSITIVE_X, 0, GL_RGBA, right.getWidth(), right.getHeight(), 0, GL_RGBA,
@@ -170,6 +162,11 @@ public class LoaderUtils {
 				GL_UNSIGNED_BYTE, bottom.getPictureData());
 		glTexImage2D(GL13.GL_TEXTURE_CUBE_MAP_POSITIVE_Y, 0, GL_RGBA, top.getWidth(), top.getHeight(), 0, GL_RGBA,
 				GL_UNSIGNED_BYTE, top.getPictureData());
+		glTexImage2D(GL13.GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, 0, GL_RGBA, front.getWidth(), front.getHeight(), 0, GL_RGBA,
+				GL_UNSIGNED_BYTE, front.getPictureData());
+		glTexImage2D(GL13.GL_TEXTURE_CUBE_MAP_POSITIVE_Z, 0, GL_RGBA, back.getWidth(), back.getHeight(), 0, GL_RGBA,
+				GL_UNSIGNED_BYTE, back.getPictureData());
+//		GL_Linear: Mittelwert zwischen den 4 Pixel	
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		texture = new Texture(textureID);

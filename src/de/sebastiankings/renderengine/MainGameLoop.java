@@ -142,10 +142,10 @@ public class MainGameLoop {
 	private static void initShaderProgramms() {
 		szene.setEntityShader(new EntityShaderProgram("res/shaders/entity/vertexShader.glsl",
 				"res/shaders/entity/fragmentShader.glsl"));
-		// hier
+
 		szene.setSkyboxShader(new SkyboxShaderProgramm("res/shaders/skybox/vertexShader.glsl",
 				"res/shaders/skybox/fragmentShader.glsl"));
-		// ende
+
 		// szene.setBillboardShader(new
 		// BillboardShaderProgram("res/shaders/billboard/vertexShader.glsl",
 		// "res/shaders/billboard/fragmentShader.glsl"));
@@ -195,6 +195,7 @@ public class MainGameLoop {
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		szene.getCamera().updateViewMatrix();
+		//rendert die Skybox
 		szene.getSkybox().render(szene.getSkyboxShader(), szene.getCamera());
 		for (Entity entity : szene.getEntities()) {
 			entity.render(szene.getEntityShader(), szene.getCamera(), szene.getLights().get(0));

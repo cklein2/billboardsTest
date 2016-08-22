@@ -18,6 +18,7 @@ public class SkyboxShaderProgramm extends ShaderProgram {
     }
  
     public void loadViewMatrix(Camera camera){
+    	//Kamera+Skybox(mitte) bleibt im Ursprung
         Matrix4f matrix = new Matrix4f(camera.getViewMatrix());
         matrix.m30 = 0.0f;
         matrix.m31 = 0.0f;
