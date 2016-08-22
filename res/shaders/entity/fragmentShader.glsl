@@ -6,8 +6,6 @@ uniform samplerCube textureReflection;
 uniform mat4 viewMatrix;
 out vec4 out_Color;
 
-
-
 void main(void){
 	vec3 incident_eye=normalize(pos_eye);
 	vec3 normal=normalize(n_eye);

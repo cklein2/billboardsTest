@@ -81,8 +81,8 @@ public class Entity extends BaseEntity {
 		// SHININESS
 		glEnableVertexAttribArray(6);
 		
-		GL13.glActiveTexture(GL13.GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, this.getTexture().getTextureID());
+//		GL13.glActiveTexture(GL13.GL_TEXTURE0);
+//		glBindTexture(GL_TEXTURE_2D, this.getTexture().getTextureID());
 		
 		GL13.glActiveTexture(GL13.GL_TEXTURE1);
 		glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, this.getReflectionTexture().getTextureID());
