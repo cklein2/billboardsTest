@@ -86,8 +86,7 @@ public class MainGameLoop {
 				laser.rotateY(30 * i);
 				entities.add(laser);
 			}
-			
-			
+				
 			//nur ein GUMBA:
 			
 			Entity gumba = EntityFactory.createEntity(EntityType.SHIP);
@@ -105,6 +104,7 @@ public class MainGameLoop {
 			Inputs inputs = new Inputs();
 			inputs.registerInputs(windowId);
 			szene = new Szene(entities, billboards, lights, new Camera(), inputs);
+			//Skybox
 			szene.setSkybox(SkyboxUtils.loadSkybox(skytexture));
 			initShaderProgramms();
 

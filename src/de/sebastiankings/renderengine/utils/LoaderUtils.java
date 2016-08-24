@@ -16,6 +16,7 @@ import static org.lwjgl.opengl.GL11.glDeleteTextures;
 import static org.lwjgl.opengl.GL11.glGenTextures;
 import static org.lwjgl.opengl.GL11.glTexImage2D;
 import static org.lwjgl.opengl.GL11.glTexParameteri;
+import static org.lwjgl.opengl.GL12.GL_CLAMP_TO_EDGE;
 import static org.lwjgl.opengl.GL13.GL_TEXTURE0;
 import static org.lwjgl.opengl.GL13.GL_TEXTURE_CUBE_MAP;
 import static org.lwjgl.opengl.GL13.glActiveTexture;
@@ -139,7 +140,7 @@ public class LoaderUtils {
 	}
 
 	public static Texture loadCubeMapTexture(String folderName) {
-		//Bilder dekodieren
+		//Bilder in ByteBuffer dekodieren
 		PNGData front = loadPngData(folderName + "/front.png");
 		PNGData back = loadPngData(folderName + "/back.png");
 		PNGData left = loadPngData(folderName + "/left.png");
@@ -147,7 +148,7 @@ public class LoaderUtils {
 		PNGData bottom = loadPngData(folderName + "/bottom.png");
 		PNGData top = loadPngData(folderName + "/top.png");
 
-		//Textur initialisieren
+		//TexturID generieren
 		int textureID = glGenTextures();
 		Texture texture = new Texture(textureID);
 		//CubeMap, 3D
@@ -166,10 +167,12 @@ public class LoaderUtils {
 				GL_UNSIGNED_BYTE, front.getPictureData());
 		glTexImage2D(GL13.GL_TEXTURE_CUBE_MAP_POSITIVE_Z, 0, GL_RGBA, back.getWidth(), back.getHeight(), 0, GL_RGBA,
 				GL_UNSIGNED_BYTE, back.getPictureData());
-//		GL_Linear: Mittelwert zwischen den 4 Pixel	
+//		GL_Linear: Mittelwert
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		texture = new Texture(textureID);
+		//Ecken "verwischen"
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 		return texture;
 	}
 
